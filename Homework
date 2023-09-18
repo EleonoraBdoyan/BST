@@ -9,7 +9,7 @@ class BST:
         self.root = None
 
     def search(self, value):
-        return __search_rec(self.root, value)
+        return self.__search_rec(self.root, value)
 
     def __search_rec(self, node, value):
         if not node:
@@ -132,4 +132,4 @@ class BST:
                 ancestor = ancestor.left
             else:
                 ancestor = ancestor.right
-        return pred
+        return success
