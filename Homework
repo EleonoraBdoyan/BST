@@ -1,0 +1,135 @@
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class BST:
+    def __init__(self):
+        self.root = None
+
+    def search(self, value):
+        return __search_rec(self.root, value)
+
+    def __search_rec(self, node, value):
+        if not node:
+            return False
+        if node.value == value:
+            return True
+        if node.value < value:
+            return __self.search_rec(node.right, value)
+        return __self.search_rec(node.left, value)
+
+    def __search_iter(self, value):
+        node = self.root
+        if not node:
+            return False
+        while node:
+            if node.value == value:
+                return True
+            if node.value < value:
+                node = node.right
+            else:
+                node = node.left
+
+
+    def get_min(self, node):
+        node = self.root
+        if not node.left:
+            return node.value
+        return self.get_min(node.left)
+
+    def get_min_iter(self, node):
+        node = self.root
+        if not node:
+            return None
+        current = node.left
+        while current:
+            current = current.left
+        return current.value
+
+    def get_max(self, node):
+        node = self.root
+        if not node.right:
+            return node.value
+        return self.get_max(node.right)
+
+    def get_max_iter(self, node):
+        node = self.root
+        if not node:
+            return None
+        current = node.right
+        while current:
+            current = current.right
+        return current.value
+
+    def insert(self, val):
+        new_node = Node(val)
+        if not self.root:
+            self.root = new_node
+        else:
+            self.__insert(self.root, new_node)
+
+    def __insert(self, node, new_node):
+        if new_node.value < node.value:
+            if node.left is None:
+                node.left = new_node
+            else:
+                self.__insert(node.left, new_node)
+        else:
+            if node.right is None:
+                node.right = new_node
+            else:
+                self.__insert(node.right, new_node)
+
+    def delete(self, val):
+        self.root = __delete(self.root, val)
+
+    def __delete(self, node, val):
+        if not node:
+            return node
+        if node.value < val:
+            node.right = self.__delete(node.right, val)
+        elif node.value > val:
+            node.left = self.__delte(node.left, val)
+        else:
+            if not node.right:
+                return node.left
+            elif not node.left:
+                return node.right
+            min_val = self.get_min(node.right)
+            node.value = min_val
+            node.right = self.__delet(node.right, min_val)
+        return node
+
+    def predecessor(self, val):
+        node = self.__search_rec(self.root, val)
+        if not node:
+            return None
+        if node.left:
+            return self.get_max(node.left)
+        pred = None
+        ancestor = self.root
+        while ancestor != node:
+            if ancestor.value < val:
+                pred = ancestor
+                ancestor = ancestor.right
+            else:
+                ancestor = ancestor.left
+        return pred
+
+    def successor(self, val):
+        node = self.__search_rec(self.root, val)
+        if not node:
+            return None
+        if node.right:
+            return self.get_min(node.right)
+        success = None
+        ancestor = self.root
+        while ancestor != node:
+            if ancestor.value > val:
+                success = ancestor
+                ancestor = ancestor.left
+            else:
+                ancestor = ancestor.right
+        return pred
